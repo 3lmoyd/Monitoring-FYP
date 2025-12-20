@@ -229,9 +229,9 @@ def ingest():
             level_tag = level.upper()
             msg = (
                 f"[{level_tag}] {status_tag} {verb} "
-                f"from {attacker_ip} (attacker_user) "
+                f"from {attacker_ip} "
                 f"at {event_time} "
-                f"to ip {host_ip} (target_user)"
+                f"to ip {host_ip} "
             )
 
             cur.execute("INSERT INTO events(host,level,message) VALUES(?,?,?)", (host, level, msg))
