@@ -1,4 +1,4 @@
-# central server (Flask + SQLite + basic APIs + dashboard)
+
 
 import json
 import sqlite3
