@@ -9,7 +9,7 @@ from flask import Flask, request, jsonify, Response, redirect
 
 BASE_DIR = Path(__file__).parent.resolve()
 DB_PATH  = BASE_DIR / "telemetry.db"
-API_KEY  = "CHANGE_ME_SUPER_SECRET"  
+API_KEY  = "Faris_Almoayyed_FYP"  
 
 OMAN_TZ = timezone(timedelta(hours=4))
 
