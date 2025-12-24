@@ -12,7 +12,7 @@ import re
 
 
 CENTRAL_URL  = "http://10.10.1.10:8000/ingest"
-API_KEY      = "CHANGE_ME_SUPER_SECRET"
+API_KEY      = "Faris_Almoayyed_FYP"
 INTERVAL_SEC = 5
 
 DEBUG_EVENTS  = False
