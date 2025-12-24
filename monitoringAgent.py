@@ -1,5 +1,4 @@
 
-
 import json
 import sqlite3
 from datetime import datetime, timezone, timedelta
@@ -12,23 +11,20 @@ BASE_DIR = Path(__file__).parent.resolve()
 DB_PATH  = BASE_DIR / "telemetry.db"
 API_KEY  = "CHANGE_ME_SUPER_SECRET"  
 
-# Oman timezone
 OMAN_TZ = timezone(timedelta(hours=4))
 
-# Local TI: trusted IPs
 LOCAL_TI = {
     "10.10.1.5":  "kali",
     "10.10.1.6":  "win11",
     "10.10.1.10": "server",
 }
 
-# Metric thresholds
+
 CPU_TH  = 80.0
 MEM_TH  = 80.0
 DISK_TH = 80.0
 
-# update alert 
-METRIC_DELTA_RESEND = 5.0
+METRIC_DELTA_RESEND =60.0
 
 app = Flask(__name__, static_folder=None)
 
@@ -65,9 +61,8 @@ def init_db():
         ts      DATETIME DEFAULT CURRENT_TIMESTAMP
     )""")
 
-    # state to dont repeating same alerts
-    # status "high" or "normal"
-    # last percentage sent for alert
+    
+    
     cur.execute("""
     CREATE TABLE IF NOT EXISTS metric_state(
         host TEXT NOT NULL,
@@ -163,7 +158,7 @@ def handle_metric(cur, host: str, host_ip: str, kind: str, value: float, thresho
     _set_metric_state(cur, host, kind, "normal", float(value))
 
 
-# recive data from agent
+
 @app.post("/ingest")
 def ingest():
     if request.headers.get("X-API-Key") != API_KEY:
@@ -191,13 +186,13 @@ def ingest():
 
         con = db(); cur = con.cursor()
 
-        # store 
+         
         cur.execute(
             "INSERT INTO metrics(host,os,cpu,mem,disk,net_up,net_down,ip) VALUES(?,?,?,?,?,?,?,?)",
             (host, osname, cpu, mem, disk, net_up, net_down, host_ip)
         )
 
-        #alerts (no duplicates)
+      
         handle_metric(cur, host, host_ip, "cpu",  cpu,  CPU_TH)
         handle_metric(cur, host, host_ip, "mem",  mem,  MEM_TH)
         handle_metric(cur, host, host_ip, "disk", disk, DISK_TH)
@@ -258,7 +253,7 @@ def ingest():
         (host, osname, cpu, mem, disk, net_up, net_down, host_ip)
     )
 
-    #alerts
+    
     handle_metric(cur, host, host_ip, "cpu",  cpu,  CPU_TH)
     handle_metric(cur, host, host_ip, "mem",  mem,  MEM_TH)
     handle_metric(cur, host, host_ip, "disk", disk, DISK_TH)
