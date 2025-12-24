@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-# agent_linux.py — Linux agent with SSH login/logout monitoring using journalctl
-# Fix: no duplicate logout (sshd vs logind + logind session dedup)
+
 
 import psutil
 import socket
@@ -12,14 +10,14 @@ import subprocess
 import requests
 import re
 
-# ------------ FYP CONFIG ------------
+
 CENTRAL_URL  = "http://10.10.1.10:8000/ingest"
 API_KEY      = "CHANGE_ME_SUPER_SECRET"
 INTERVAL_SEC = 5
 
 DEBUG_EVENTS  = False
 DEBUG_JOURNAL = False
-# ------------------------------------
+
 
 IP_RE = re.compile(r'(\d{1,3}\.){3}\d{1,3}')
 
